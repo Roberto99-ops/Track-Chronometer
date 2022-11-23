@@ -34,7 +34,7 @@ class TabApp extends StatelessWidget {
               Tab(child: Icon(Icons.account_balance_wallet)),
             ],),
           ),
-          body: const TabBarView(children: [
+          body: TabBarView(children: [
             CreateViewTemps(),
             CreateViewFiles(name: 'Links'),
           ],),

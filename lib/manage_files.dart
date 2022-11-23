@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 
-Future<bool> saveFile(String fileName, String text, File photo) async {
+Future<bool> saveFile(String fileName, String text) async {
 
   Directory directory;
   try {
@@ -39,7 +39,6 @@ Future<bool> saveFile(String fileName, String text, File photo) async {
     }
     if (await directory.exists()) {
       File saveTxtFile = File("${directory.path}/$fileName.txt");
-      File saveImgFile = File("${directory.path}/$fileName.png");
 
       String finalString = "";                                //parsing
       List<String> strings = text.split('\n');
@@ -53,7 +52,6 @@ Future<bool> saveFile(String fileName, String text, File photo) async {
       }
 
       saveTxtFile.writeAsString(finalString);
-      saveImgFile.writeAsBytes(photo.readAsBytesSync());
       return true;
     }
     return false;

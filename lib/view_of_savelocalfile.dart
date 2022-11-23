@@ -6,9 +6,8 @@ import 'package:app_cronometro/manage_files.dart';
 import 'main.dart';
 
 class ViewSaveFile extends StatefulWidget{
-  final String title;
-  final File temps;
-  const ViewSaveFile({Key? key, required this.title, required this.temps}) : super(key: key);
+  final String text;
+  const ViewSaveFile({Key? key, required this.text}) : super(key: key);
 
 
   @override
@@ -88,7 +87,7 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () async {
-                        saveFile(titleController.text, widget.title, widget.temps);
+                        saveFile(titleController.text, widget.text);
                         await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
