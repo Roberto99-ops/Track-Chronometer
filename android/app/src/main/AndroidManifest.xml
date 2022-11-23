@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.app_cronometro">
    <application
-        android:label="app_cronometro"
+        android:label="Cronometro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
