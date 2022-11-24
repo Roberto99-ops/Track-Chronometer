@@ -95,19 +95,13 @@ class _View extends State<CreateViewTemps>{
                       ),
                       IconButton(
                         onPressed: () async {
-                          setState(() {saveButton=false;});
-                          if(getFileName()!="") {
-                            saveFile(getFileName(), doc);
-                            setFileName("");
-                            await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => TabApp(),
-                                )
-                            );
-                          }
-                          else {
-                            setState(() {_save = true;});
-                          }
+                          var result = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ViewSaveFile(text: doc),
+                            ),
+                          );
+                          if(result==true)
+                            setState(() {saveButton=false;});
                         },
                         icon: const Icon(
                           Icons.archive_sharp,
@@ -145,14 +139,15 @@ class _View extends State<CreateViewTemps>{
             ],
     ),
     ),
-        if(_save)...[
-          ViewSaveFile(text: doc)
-        ],
       ],
     );
   }
 }
 
+void saveOff()
+{
+
+}
 String fileName = ""; //this variable is used to know if the variable is already been saved
 void setFileName(String name){
   fileName = name;

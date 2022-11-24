@@ -16,6 +16,7 @@ class ViewSaveFile extends StatefulWidget{
 
 class _ViewSaveFile extends State<ViewSaveFile>{
   bool isReadOnly = true;
+  bool wrongname = false;
   final titleController = TextEditingController();
 
   @override
@@ -47,7 +48,11 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                 width: 300,
                 height: 10,
               ),
+              if (wrongname==false)...[
               const Text("Insert the name of the file"),
+              ]else...[
+              Text("File name already existing or empty"),
+            ],
               SizedBox(
                 width: 280,
                 child: TextField(
@@ -72,11 +77,14 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                     width: 110,
                     height: 55,
                     child: ElevatedButton(
-                        onPressed: () {setState(() {isReadOnly=true;});},
+                        onPressed: () async {
+                          setState(() {isReadOnly=true;});
+                          Navigator.pop(context, false);
+                          },
                         style: const ButtonStyle(
                           // minimumSize: MaterialStateProperty.,
                         ),
-                        child: const Text("delete")
+                        child: const Text("back")
                     ),
                   ),
                   const SizedBox(
@@ -87,12 +95,15 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () async {
-                        saveFile(titleController.text, widget.text);
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
-                          ),
-                        );
+                        bool c = await checkFiles(titleController.text); //variabile di comodo
+                          if(c==false){
+                            setState(() {wrongname=true;});
+                          }
+                          else {
+                            setState(() {wrongname=false;});
+                            saveFile(titleController.text, widget.text);
+                            Navigator.pop(context,true);
+                          }
                       },
                       child: const Text("save"),
                     ),

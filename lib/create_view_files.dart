@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_cronometro/manage_files.dart';
@@ -49,13 +50,12 @@ class _View extends State<CreateViewFiles>{
                 ),
               ),
               onTap: () async =>
-              {
+              {//qui ci devo mettere che leggo i file
                 //setFileName(files.elementAt(index)),
                 //await Navigator.of(context).push(
                   //MaterialPageRoute(
                     //builder: (context) => DisplayImageOCR(
                       //  extractText: getText(files.elementAt(index)),
-                        //pickedImage: getPhoto(files.elementAt(index))),
                  // ),
                // ),
               },
@@ -64,7 +64,7 @@ class _View extends State<CreateViewFiles>{
                     context: context,
                     builder: (context){
                       return SizedBox(
-                          height: 120,
+                          height: 180,
                           child: Column(
                               children: <Widget>[
                                 ListTile(
@@ -72,6 +72,21 @@ class _View extends State<CreateViewFiles>{
                                   title: const Text('delete'),
                                   onTap: () {
                                     deleteFile(files[index]);
+                                    updateFiles();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.text_fields, color: Colors.green),
+                                  title: const Text('rename'),
+                                  onTap: () async {
+                                    var result = await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewSaveFile(text: getText(files.elementAt(index))),
+                                      ),
+                                    );
+                                    if(result==true)
+                                      deleteFile(files[index]);
                                     updateFiles();
                                     Navigator.of(context).pop();
                                   },
@@ -155,12 +170,6 @@ class _View extends State<CreateViewFiles>{
     File file = File("$path/$name.txt");
     String content = file.readAsStringSync();
     return content;
-  }
-
-  File getPhoto(String name){
-    String path = directory.path;
-    File file = File("$path/$name.png");
-    return file;
   }
 }
 
