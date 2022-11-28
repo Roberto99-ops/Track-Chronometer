@@ -12,10 +12,9 @@ import 'display_text.dart';
 
 
 class CreateViewFiles extends StatefulWidget {
-  final String name;
 
 
-  const CreateViewFiles({Key? key, required this.name})
+  const CreateViewFiles({Key? key})
       : super(key: key);
 
   @override
@@ -28,6 +27,8 @@ class _View extends State<CreateViewFiles>{
   late List<String> files;
   late Directory directory;
   late List <String> favouriteFiles; //this list contains the name of the user favourite files
+  late int _index;
+  late bool _picked;
 
   @override
   void initState(){
@@ -35,33 +36,45 @@ class _View extends State<CreateViewFiles>{
     files = List.filled(0, "", growable: true);
     favouriteFiles = List.filled(0, "", growable: true);
     updateFiles();
+    _picked=false;
     //favouriteFiles = getFav();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: files.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-              leading: favourites(files.elementAt(index)),
-              title: Text(
+    return Stack(
+        children: [
+          Scaffold(
+              body:  ListView.builder(
+                  itemCount: files.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                        leading: favourites(files.elementAt(index)),
+                        title: Text(
                 files.elementAt(index),
                 style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
-              onTap: () async =>
-              {//qui ci devo mettere che leggo i file
-                setFileName(files.elementAt(index)),
+              onTap: () => {
+                          setState(() {_picked=true;}),
+                _index=index,
+              },
+              //{//qui ci devo mettere che leggo i file
+                /*setFileName(files.elementAt(index)),
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => DisplayText(
                         extractText: getText(files.elementAt(index)),
                   ),
                 ),
-                ),
-              },
+                ),*/
+                /*await Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => ViewDisplayText(text: getText(files.elementAt(index)), fileName: files.elementAt(index)),
+                  ),
+                ),*/
+              //},
               onLongPress: () {
                 showModalBottomSheet(
                     context: context,
@@ -113,8 +126,116 @@ class _View extends State<CreateViewFiles>{
               }
           );
         }
+    ),
+    ),
+          if(_picked)...[
+            Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+                Radius.circular(15.0)
+            ),
+            color: Colors.black,
+          ),
+          height: 400,
+          width: 300,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 300,
+                height: 10,
+              ),
+              Text(files.elementAt(_index), style: TextStyle(
+                color: Colors.blue,
+                fontSize: 25,
+                fontStyle: FontStyle.italic,
+                decoration: TextDecoration.underline
+              ),
+              ),
+              SizedBox(
+                height: 75,
+              ),
+              SizedBox(
+                width: 300,
+                height: 220,
+                child: Row(
+                  children: [
+                    SizedBox(width: 30,),
+                    SizedBox(
+                      width: 300-30,
+                    height: 220,
+                    child: Text(
+                      getText(files.elementAt(_index)),
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                        fontSize: 20,
+                          ),
+                        )
+                    ),
+                  ],
+                )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 110,
+                    height: 55,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          /*await Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => TabApp(),
+                            ),
+                          );*/
+                          setState(() {
+                            _picked=false;
+                          });
+                        },
+                        style: const ButtonStyle(
+                          // minimumSize: MaterialStateProperty.,
+                        ),
+                        child: const Text("back")
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 60,
+                  ),
+                  SizedBox(
+                    width: 110,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        setFileName(files.elementAt(_index));
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => DisplayText(
+                                extractText: getText(files.elementAt(_index)),
+                          ),
+                          ),
+                        );
+                      },
+                      child: const Text("modify"),
+                    ),
+                  ),
+                ],
+              ),
+          ],
+          ),
+        ),
+      ),
+    ),
+          ],
+  ],
     );
   }
+
 
   //this function returns the "favourite" widget
   Widget favourites(String name){
@@ -174,6 +295,5 @@ class _View extends State<CreateViewFiles>{
     String content = file.readAsStringSync();
     return content;
   }
+
 }
-
-

@@ -145,12 +145,9 @@ class _View extends State<CreateViewTemps>{
   }
 }
 
-void saveOff()
-{
 
-}
 String fileName = ""; //this variable is used to know if the variable is already been saved
-void setFileName(String name){
+void setFilename(String name){
   fileName = name;
 }
 String getFileName(){
