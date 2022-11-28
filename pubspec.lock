@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3+2"
   crypto:
     dependency: transitive
     description:
@@ -331,13 +338,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  share:
+  share_plus:
     dependency: "direct main"
     description:
-      name: share
+      name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "6.3.0"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -455,6 +469,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:

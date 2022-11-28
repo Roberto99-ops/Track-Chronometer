@@ -4,7 +4,7 @@ import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_cronometro/manage_files.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'text_editor.dart';
 import 'display_text.dart';
 
@@ -98,10 +98,10 @@ class _View extends State<CreateViewFiles>{
                                   leading: const Icon(Icons.share, color: Colors.blue),
                                   title: const Text('share'),
                                   onTap: () {
-                                    List <String> dir = List.empty(growable: true);
-                                    dir.length = 1;
-                                    dir[0] = "${directory.path}/${files[index]}.txt";
-                                    Share.shareFiles(dir);
+                                    XFile file = XFile("${directory.path}/${files[index]}.txt");
+                                    List <XFile> dir = List.empty(growable: true);
+                                    dir.add(file);
+                                    Share.shareXFiles(dir);
                                     Navigator.of(context).pop();
                                   },
                                 )
