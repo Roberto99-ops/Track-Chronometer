@@ -102,7 +102,11 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                           else {
                             setState(() {wrongname=false;});
                             saveFile(titleController.text, widget.text);
-                            Navigator.pop(context,true);
+                            await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => TabApp()
+                                ),
+                            );
                           }
                       },
                       child: const Text("save"),

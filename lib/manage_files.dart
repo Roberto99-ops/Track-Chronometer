@@ -44,7 +44,7 @@ Future<bool> saveFile(String fileName, String text) async {
     if (await directory.exists()) {
       File saveTxtFile = File("${directory.path}/$fileName.txt");
 
-      /*String finalString = "";                                //parsing
+      String finalString = "";                                //parsing
       List<String> strings = text.split('\n');
       for(int i=0; i<strings.length; i++) {
         String string = strings[i];
@@ -53,9 +53,9 @@ Future<bool> saveFile(String fileName, String text) async {
         string = string.substring(start, end);
         if(i!=strings.length-1) string = '$string\n';
         finalString = finalString + string;
-      }*/
+      }
 
-      saveTxtFile.writeAsString(text);
+      saveTxtFile.writeAsString(finalString);
       return true;
     }
     return false;

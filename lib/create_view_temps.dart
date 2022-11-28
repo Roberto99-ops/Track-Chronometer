@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'display_text.dart';
 import 'main.dart';
 import 'manage_files.dart';
 import 'view_of_savelocalfile.dart';
@@ -97,7 +98,7 @@ class _View extends State<CreateViewTemps>{
                         onPressed: () async {
                           var result = await Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => ViewSaveFile(text: doc),
+                              builder: (context) => DisplayText(extractText: doc),
                             ),
                           );
                           if(result==true)

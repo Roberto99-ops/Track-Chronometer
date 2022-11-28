@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_cronometro/manage_files.dart';
 import 'package:share/share.dart';
+import 'text_editor.dart';
+import 'display_text.dart';
 
 //import 'favourites.dart';
 
@@ -51,13 +53,14 @@ class _View extends State<CreateViewFiles>{
               ),
               onTap: () async =>
               {//qui ci devo mettere che leggo i file
-                //setFileName(files.elementAt(index)),
-                //await Navigator.of(context).push(
-                  //MaterialPageRoute(
-                    //builder: (context) => DisplayImageOCR(
-                      //  extractText: getText(files.elementAt(index)),
-                 // ),
-               // ),
+                setFileName(files.elementAt(index)),
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DisplayText(
+                        extractText: getText(files.elementAt(index)),
+                  ),
+                ),
+                ),
               },
               onLongPress: () {
                 showModalBottomSheet(
