@@ -86,14 +86,15 @@ class _TextEditor extends State<TextEditor>{
                   );
                 }
                 else {
-                  setState(() {_save = true;});
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ViewSaveFile(text: _controller.document.toString()),
+                    ),
+                  );
                 }
               }
           ),
         ),
-        if(_save)...[
-          ViewSaveFile(text: _controller.document.toString())
-        ],
       ],
     );
   }

@@ -128,7 +128,7 @@ class _View extends State<CreateViewFiles>{
         }
     ),
     ),
-          if(_picked)...[
+          if(_picked)...[  //this displays the text
             Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
