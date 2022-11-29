@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'display_text.dart';
 import 'main.dart';
 import 'manage_files.dart';
@@ -21,9 +22,11 @@ class _View extends State<CreateViewTemps>{
   late bool saveButton=false; //used to display the button to save the just taken measures
   late bool _save = false;
   late String doc = "ciaociao";
+  late Directory directory;
 
   @override
   void initState(){
+    initDir();
     super.initState();
     ready=true;
     saveButton=false;
@@ -98,7 +101,7 @@ class _View extends State<CreateViewTemps>{
                         onPressed: () async {
                           var result = await Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => DisplayText(extractText: doc),
+                              builder: (context) => DisplayText(extractText: doc, directory: directory,),
                             ),
                           );
                           if(result==true)
@@ -142,6 +145,13 @@ class _View extends State<CreateViewTemps>{
     ),
       ],
     );
+  }
+
+  initDir() async {
+    Directory dir = await getApplicationDocumentsDirectory();
+    setState(() {
+      directory=dir;
+    });
   }
 }
 

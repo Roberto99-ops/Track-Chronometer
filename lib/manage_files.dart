@@ -83,11 +83,9 @@ Future<void> deleteFile(String fileName) async {
   TxtFile.deleteSync();
 }
 
-Future <bool> checkFiles(String fileName) async {
-  Directory directory = await getApplicationDocumentsDirectory();
+Future <bool> checkFiles(String fileName, Directory dir) async {
   List<String> names = List.filled(0, "", growable: true);
   List<FileSystemEntity> list;
-  Directory dir = await getApplicationDocumentsDirectory();
   list = dir.listSync();
   for(FileSystemEntity file in list){
     if(file.path.endsWith("txt")) {
@@ -102,6 +100,39 @@ Future <bool> checkFiles(String fileName) async {
   if(fileName=="" || names.contains(fileName))
     return false;
   return true;
+}
+
+bool checkDirs(String name, Directory dir){
+  List<String> names = List.filled(0, "", growable: true);
+  List<FileSystemEntity> list;
+  list = dir.listSync();
+  for(FileSystemEntity entity in list){
+    if(entity is Directory) {
+      String string = entity.path.split("/").last;
+      names.add(string);
+    }
+  }
+
+  if(name=="" || names.contains(name))
+    return false;
+  return true;
+}
+
+Future<bool> createDir(String name, Directory dir) async {
+  try {
+    if(name==""){
+      return false;
+    }
+    if (await dir.exists()){
+      Directory newDir = Directory("${dir.path}/$name");
+      newDir.create(recursive: true);
+      return true;
+    }
+    return false;
+  } catch (e) {
+    print(e);
+    return false;
+  }
 }
 
 /*

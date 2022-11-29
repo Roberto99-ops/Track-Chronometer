@@ -11,7 +11,8 @@ import 'manage_files.dart';
 
 class TextEditor extends StatefulWidget{
   String doc;
-  TextEditor({Key? key, required this.doc}) : super(key: key);
+  final Directory directory;
+  TextEditor({Key? key, required this.doc, required this.directory}) : super(key: key);
 
   @override
   _TextEditor createState() => _TextEditor();
@@ -88,7 +89,7 @@ class _TextEditor extends State<TextEditor>{
                 else {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ViewSaveFile(text: _controller.document.toString()),
+                      builder: (context) => ViewSaveFile(text: _controller.document.toString(), directory: widget.directory,),
                     ),
                   );
                 }

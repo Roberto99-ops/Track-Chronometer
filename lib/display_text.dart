@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class DisplayText extends StatelessWidget {
 
   final String extractText;
-  const DisplayText({Key? key, required this.extractText})
+  final Directory directory;
+  const DisplayText({Key? key, required this.extractText, required this.directory})
       : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class DisplayText extends StatelessWidget {
             ],),
           ),
           body: TabBarView(children: [
-            TextEditor(doc: extractText),
+            TextEditor(doc: extractText, directory: directory,),
           ],),
         ),
       ),

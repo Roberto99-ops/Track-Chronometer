@@ -5,17 +5,16 @@ import 'package:app_cronometro/manage_files.dart';
 
 import 'main.dart';
 
-class ViewSaveFile extends StatefulWidget{
-  final String text;
+class ViewCreateDir extends StatefulWidget{
   final Directory directory;
-  const ViewSaveFile({Key? key, required this.text, required this.directory}) : super(key: key);
+  const ViewCreateDir({Key? key, required this.directory}) : super(key: key);
 
 
   @override
-  _ViewSaveFile createState() => _ViewSaveFile();
+  _ViewCreateDir createState() => _ViewCreateDir();
 }
 
-class _ViewSaveFile extends State<ViewSaveFile>{
+class _ViewCreateDir extends State<ViewCreateDir>{
   bool isReadOnly = true;
   bool wrongname = false;
   final titleController = TextEditingController();
@@ -50,10 +49,10 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                 height: 10,
               ),
               if (wrongname==false)...[
-              const Text("Insert the name of the file"),
+                const Text("Insert the name of the directory"),
               ]else...[
-              Text("File name already existing or empty"),
-            ],
+                Text("Directory name already existing or empty"),
+              ],
               SizedBox(
                 width: 280,
                 child: TextField(
@@ -81,7 +80,7 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                         onPressed: () async {
                           setState(() {isReadOnly=true;});
                           Navigator.pop(context, false);
-                          },
+                        },
                         style: const ButtonStyle(
                           // minimumSize: MaterialStateProperty.,
                         ),
@@ -96,17 +95,17 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () async {
-                        bool c = await checkFiles(titleController.text,widget.directory); //variabile di comodo
-                          if(c==false){
-                            setState(() {wrongname=true;});
-                          }
-                          else {
-                            setState(() {wrongname=false;});
-                            saveFile(titleController.text, widget.text);
-                            Navigator.pop(context,false);
-                          }
+                        bool c = await checkDirs(titleController.text, widget.directory); //variabile di comodo
+                        if(c==false){
+                          setState(() {wrongname=true;});
+                        }
+                        else {
+                          setState(() {wrongname=false;});
+                          createDir(titleController.text, widget.directory);
+                          Navigator.pop(context,false);
+                        }
                       },
-                      child: const Text("save"),
+                      child: const Text("create"),
                     ),
                   ),
                 ],

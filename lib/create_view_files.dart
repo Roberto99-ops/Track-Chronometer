@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_cronometro/view_of_create_new_directory.dart';
 import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,8 +14,7 @@ import 'display_text.dart';
 
 class CreateViewFiles extends StatefulWidget {
 
-
-  const CreateViewFiles({Key? key})
+  CreateViewFiles({Key? key})
       : super(key: key);
 
   @override
@@ -25,19 +25,20 @@ class CreateViewFiles extends StatefulWidget {
 class _View extends State<CreateViewFiles>{
 
   late List<String> files;
-  late Directory directory;
+  late List<String> dirs;
   late List <String> favouriteFiles; //this list contains the name of the user favourite files
   late int _index;
   late bool _picked;
+  late Directory directory = Directory.current;
 
   @override
   void initState(){
-    //super.initState(); to remove the warning
+    //super.initState(); to remove the
+    checkDir();
     files = List.filled(0, "", growable: true);
+    dirs = List.filled(0, "", growable: true);
     favouriteFiles = List.filled(0, "", growable: true);
-    updateFiles();
     _picked=false;
-    //favouriteFiles = getFav();
   }
 
   @override
@@ -46,64 +47,126 @@ class _View extends State<CreateViewFiles>{
         children: [
           Scaffold(
               body:  ListView.builder(
-                  itemCount: files.length,
+                  itemCount: (files.length + dirs.length),
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                        leading: favourites(files.elementAt(index)),
+                    if(index < dirs.length){
+                      return ListTile( //these are the directories
+                        leading: Icon(Icons.account_balance_wallet),
                         title: Text(
-                files.elementAt(index),
-                style: const TextStyle(
-                  fontSize: 20,
+                          dirs.elementAt(index),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            decorationThickness: 2
+                          )
+                        ),
+                        onTap: () => {
+                          //apro la cartella
+                        },
+                        onLongPress: (){
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context){
+                                return SizedBox(
+                                  height: 60*2,
+                                  child: Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                        leading: Icon(Icons.add, color: Colors.green,),
+                                        title: Text('new directory'),
+                                        onTap: () async {
+                                          Directory dir = Directory("${directory.path}");
+                                          await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewCreateDir(directory: dir),
+                                            ),
+                                          );
+                                          updateFiles(directory);
+                                          Navigator.of(context).pop();
+                                        }
+                                      ),
+                                      ListTile(
+                                          leading: Icon(Icons.delete, color: Colors.red,),
+                                          title: Text('delete'),
+                                        onTap: () {
+                                          //deleteDirectory
+                                          updateFiles(directory);
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  )
+                                );
+                              }
+                          );
+                        },
+                      );
+                    }
+                    else{ //these are the files
+                    return ListTile(
+                        leading: Icon(Icons.file_copy_outlined),
+                        title: Text(
+                          files.elementAt(index-dirs.length),
+                          style: const TextStyle(
+                            fontSize: 20,
                 ),
               ),
               onTap: () => {
                           setState(() {_picked=true;}),
-                _index=index,
+                _index=index-dirs.length,
               },
-              //{//qui ci devo mettere che leggo i file
-                /*setFileName(files.elementAt(index)),
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => DisplayText(
-                        extractText: getText(files.elementAt(index)),
-                  ),
-                ),
-                ),*/
-                /*await Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => ViewDisplayText(text: getText(files.elementAt(index)), fileName: files.elementAt(index)),
-                  ),
-                ),*/
-              //},
               onLongPress: () {
                 showModalBottomSheet(
                     context: context,
                     builder: (context){
                       return SizedBox(
-                          height: 180,
+                          height: 60*5,
                           child: Column(
                               children: <Widget>[
                                 ListTile(
-                                  leading: const Icon(Icons.delete, color: Colors.red),
-                                  title: const Text('delete'),
+                                  leading: const Icon(Icons.add, color: Colors.green),
+                                  title: const Text('new directory'),
+                                  onTap: () async {
+                                    Directory dir = Directory("${directory.path}");
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewCreateDir(directory: dir),
+                                      ),
+                                    );
+                                    updateFiles(directory);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.drive_file_move_outline, color: Colors.green),
+                                  title: const Text('move'),
                                   onTap: () {
-                                    deleteFile(files[index]);
-                                    updateFiles();
+                                    //qui devo far si che si possano spostare
+                                    updateFiles(directory);
                                     Navigator.of(context).pop();
                                   },
                                 ),
                                 ListTile(
                                   leading: const Icon(Icons.text_fields, color: Colors.green),
-                                  title: const Text('rename'),
+                                  title: const Text('rename '),
                                   onTap: () async {
                                     var result = await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => ViewSaveFile(text: getText(files.elementAt(index))),
+                                        builder: (context) => ViewSaveFile(text: getText(files.elementAt(index-dirs.length)), directory: directory,),
                                       ),
                                     );
                                     if(result==true)
-                                      deleteFile(files[index]);
-                                    updateFiles();
+                                      deleteFile(files[index-dirs.length]);
+                                    updateFiles(directory);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.delete, color: Colors.red),
+                                  title: const Text('delete'),
+                                  onTap: () {
+                                    deleteFile(files[index-dirs.length]);
+                                    updateFiles(directory);
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -111,7 +174,7 @@ class _View extends State<CreateViewFiles>{
                                   leading: const Icon(Icons.share, color: Colors.blue),
                                   title: const Text('share'),
                                   onTap: () {
-                                    XFile file = XFile("${directory.path}/${files[index]}.txt");
+                                    XFile file = XFile("${directory.path}/${files[index-dirs.length]}.txt");
                                     List <XFile> dir = List.empty(growable: true);
                                     dir.add(file);
                                     Share.shareXFiles(dir);
@@ -125,6 +188,7 @@ class _View extends State<CreateViewFiles>{
                 );
               }
           );
+                    };
         }
     ),
     ),
@@ -216,7 +280,7 @@ class _View extends State<CreateViewFiles>{
                         await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => DisplayText(
-                                extractText: getText(files.elementAt(_index)),
+                                extractText: getText(files.elementAt(_index)), directory: directory,
                           ),
                           ),
                         );
@@ -237,58 +301,38 @@ class _View extends State<CreateViewFiles>{
   }
 
 
-  //this function returns the "favourite" widget
-  Widget favourites(String name){
-    if(favouriteFiles.contains(name)) {
-      return IconButton(
-        highlightColor: Colors.black,
-        splashColor: Colors.black,
-        icon: const Icon(
-          Icons.star,
-          color: Colors.yellow,
-          size: 20,
-        ),
-        onPressed: () { setState(() { favouriteFiles.remove(name);});},
-      );
-    }
-    else{
-      return IconButton(
-        highlightColor: Colors.yellow,
-        splashColor: Colors.yellow,
-        icon: const Icon(
-          Icons.star_border_outlined,
-          color: Colors.black,
-          size: 20,
-        ),
-        onPressed: () {setState((){ favouriteFiles.add(name);});},
-      );
-    }
-  }
-
-
   //this function scan the directory to make a list of the txt files
-  updateFiles() async {
+  updateFiles(Directory dir) async {
     List<String> names = List.filled(0, "", growable: true);
+    List<String> directories = List.filled(0, "", growable: true);
     List<FileSystemEntity> list;
-    Directory dir = await getApplicationDocumentsDirectory();
     list = dir.listSync();
-    for(FileSystemEntity file in list){
+
+    for(FileSystemEntity entity in list){
       //FileStat f = file.path;
-      if(file.path.endsWith("txt")) {
-        String string = file.path.split("/").last;
-        int start = 0;
-        int end = string.lastIndexOf(".");
-        string = string.substring(start, end);
-        names.add(string);
+      if(entity is File){
+        if(entity.path.endsWith("txt")) {
+          String string = entity.path.split("/").last;
+          int start = 0;
+          int end = string.lastIndexOf(".");
+          string = string.substring(start, end);
+          names.add(string);
+        }
+      }
+      if(entity is Directory){
+        String string = entity.path.split("/").last;
+        if(string!="flutter_assets" && string != "res_timestamp-1-1669713873794")
+          directories.add(string);
       }
     }
 
     setState((){
       files = names;
-      directory = dir;
+      dirs = directories;
     });
   }
 
+  //this function gets the text from a file
   String getText(String name){
     String path = directory.path;
     File file = File("$path/$name.txt");
@@ -296,4 +340,12 @@ class _View extends State<CreateViewFiles>{
     return content;
   }
 
+  //this functions sets the initial directory
+  checkDir() async {
+      Directory dir = await getApplicationDocumentsDirectory();
+      setState(() {
+        directory = dir;
+      });
+      updateFiles(directory);
+  }
 }
