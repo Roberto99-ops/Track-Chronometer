@@ -10,7 +10,8 @@ import 'view_of_savelocalfile.dart';
 
 
 class ViewIntoDirectory extends StatefulWidget{
-  final Directory directory;
+  Directory directory;
+
   ViewIntoDirectory({Key? key, required this.directory}) : super(key: key);
 
   @override
@@ -21,11 +22,14 @@ class ViewIntoDirectory extends StatefulWidget{
 class _View extends State<ViewIntoDirectory>{
 
   late String dirName="";
+  late int end;
+  late String newDirName;
   @override
   void initState(){
     super.initState();
     dirName = widget.directory.path.split("/").last;
-    print(widget.directory.path + dirName);
+    end = widget.directory.path.length - dirName.length - 1;
+    newDirName = widget.directory.path.substring(0, end);
   }
 
   @override
@@ -40,7 +44,25 @@ class _View extends State<ViewIntoDirectory>{
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(tabs: [
-              Tab(child: Text(dirName)),
+              Tab(child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () async => {
+                          //if(newDirName.split("/").last!="app_flutter")
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewIntoDirectory(directory: Directory(newDirName)),
+                            ),
+                          ),
+                          },
+                        icon: Icon(Icons.arrow_circle_left_outlined, color: Colors.blue)
+                    ),
+                    SizedBox(width: 80,),
+                    Text(dirName, textScaleFactor: 1.5,),
+                  ],
+              ),
+              ),
             ],),
           ),
           body: TabBarView(children: [
@@ -50,5 +72,5 @@ class _View extends State<ViewIntoDirectory>{
       ),
     );
   }
-
 }
+

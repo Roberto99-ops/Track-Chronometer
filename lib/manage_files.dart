@@ -135,6 +135,10 @@ Future<bool> createDir(String name, Directory dir) async {
   }
 }
 
+//this method deletes the chosen directory
+void deleteDirectory(Directory dir){
+  dir.deleteSync();
+}
 /*
 Future <void> renameFile(String oldfileName, String newfileName) async{
   Directory dir = await getApplicationDocumentsDirectory();

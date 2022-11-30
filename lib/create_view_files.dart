@@ -62,11 +62,6 @@ class _View extends State<CreateViewFiles>{
                           )
                         ),
                         onTap: () async => {
-                          /*String name = "",
-                          name = directory.path;
-                          name += "/";
-                          name += dirs.elementAt(index);
-                          Directory dir = Directory(name);*/
                           await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
@@ -101,7 +96,7 @@ class _View extends State<CreateViewFiles>{
                                           leading: Icon(Icons.delete, color: Colors.red,),
                                           title: Text('delete'),
                                         onTap: () {
-                                          //deleteDirectory
+                                          deleteDirectory(Directory(directory.path + "/" + dirs.elementAt(index)));
                                           updateFiles(directory);
                                           Navigator.of(context).pop();
                                         },
@@ -366,6 +361,6 @@ class _View extends State<CreateViewFiles>{
         directory = dir;
       });
     }
-      updateFiles(directory);
+    updateFiles(directory);
   }
 }
