@@ -37,7 +37,7 @@ class TabApp extends StatelessWidget {
           ),
           body: TabBarView(children: [
             CreateViewTemps(),
-            CreateViewFiles(),
+            CreateViewFiles(path: ""),
           ],),
         ),
       ),

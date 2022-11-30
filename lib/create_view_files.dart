@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_cronometro/view_into_directory.dart';
 import 'package:app_cronometro/view_of_create_new_directory.dart';
 import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ import 'display_text.dart';
 
 class CreateViewFiles extends StatefulWidget {
 
-  CreateViewFiles({Key? key})
+  final String path;
+  CreateViewFiles({Key? key, required this.path})
       : super(key: key);
 
   @override
@@ -29,11 +31,11 @@ class _View extends State<CreateViewFiles>{
   late List <String> favouriteFiles; //this list contains the name of the user favourite files
   late int _index;
   late bool _picked;
-  late Directory directory = Directory.current;
+  late Directory directory;
 
   @override
   void initState(){
-    //super.initState(); to remove the
+    super.initState();
     checkDir();
     files = List.filled(0, "", growable: true);
     dirs = List.filled(0, "", growable: true);
@@ -59,8 +61,18 @@ class _View extends State<CreateViewFiles>{
                             decorationThickness: 2
                           )
                         ),
-                        onTap: () => {
-                          //apro la cartella
+                        onTap: () async => {
+                          /*String name = "",
+                          name = directory.path;
+                          name += "/";
+                          name += dirs.elementAt(index);
+                          Directory dir = Directory(name);*/
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewIntoDirectory(directory: Directory(directory.path + "/" + dirs.elementAt(index))),
+                            ),
+                          )
                         },
                         onLongPress: (){
                           showModalBottomSheet(
@@ -342,10 +354,18 @@ class _View extends State<CreateViewFiles>{
 
   //this functions sets the initial directory
   checkDir() async {
+    if(widget.path=="") {
       Directory dir = await getApplicationDocumentsDirectory();
       setState(() {
         directory = dir;
       });
+    }
+    else{
+      Directory dir = Directory(widget.path);
+      setState(() {
+        directory = dir;
+      });
+    }
       updateFiles(directory);
   }
 }
