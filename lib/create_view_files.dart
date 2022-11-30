@@ -339,7 +339,6 @@ class _View extends State<CreateViewFiles>{
       }
     }
 
-    print(names);
     setState((){
       files = names;
       dirs = directories;
@@ -365,8 +364,10 @@ class _View extends State<CreateViewFiles>{
     }
     else{
       Directory dir = Directory(widget.path);
+      Directory dir2 = await getApplicationDocumentsDirectory();
       setState(() {
         directory = dir;
+        applicationDir=dir2;
       });
     }
     updateFiles(directory);

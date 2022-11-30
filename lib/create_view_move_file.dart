@@ -74,7 +74,8 @@ class _View extends State<CreateViewMoveFile>{
                     width: MediaQuery.of(context).size.width/10,
                     child: IconButton(
                         onPressed: () => {
-                          moveFile(widget.file, widget.oldDirectory, widget.newDirectory)
+                          moveFile(widget.file, widget.oldDirectory, widget.newDirectory),
+                          Navigator.popUntil(context, ModalRoute.withName("/_CreateViewFiles"))
                         },
                         icon: Icon(Icons.save_alt, color: Colors.blue,)
                     )
