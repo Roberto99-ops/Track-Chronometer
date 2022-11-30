@@ -102,6 +102,15 @@ Future <bool> checkFiles(String fileName, Directory dir) async {
   return true;
 }
 
+Future<void> moveFile(String toMove, Directory from, Directory to) async {
+      File file = File("${from.path}/$toMove.txt");
+      String text = file.readAsStringSync();
+      File saveTxtFile = File("${to.path}/$toMove.txt");
+
+      saveTxtFile.writeAsString(text);
+      file.deleteSync();
+}
+
 bool checkDirs(String name, Directory dir){
   List<String> names = List.filled(0, "", growable: true);
   List<FileSystemEntity> list;

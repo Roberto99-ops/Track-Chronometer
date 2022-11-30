@@ -48,7 +48,7 @@ class _View extends State<ViewIntoDirectory>{
                   children: [
                     IconButton(
                         onPressed: () async => {
-                          //if(newDirName.split("/").last!="app_flutter")
+                          if(newDirName.split("/").last!="app_flutter")
                           await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>

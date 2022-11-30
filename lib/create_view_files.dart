@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:app_cronometro/create_view_move_file.dart';
 import 'package:app_cronometro/view_into_directory.dart';
+import 'package:app_cronometro/view_move_file.dart';
 import 'package:app_cronometro/view_of_create_new_directory.dart';
 import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +34,14 @@ class _View extends State<CreateViewFiles>{
   late int _index;
   late bool _picked;
   late Directory directory;
+  late Directory applicationDir;
 
   @override
   void initState(){
     super.initState();
-    checkDir();
     files = List.filled(0, "", growable: true);
     dirs = List.filled(0, "", growable: true);
-    favouriteFiles = List.filled(0, "", growable: true);
+    checkDir();
     _picked=false;
   }
 
@@ -147,8 +149,12 @@ class _View extends State<CreateViewFiles>{
                                 ListTile(
                                   leading: const Icon(Icons.drive_file_move_outline, color: Colors.green),
                                   title: const Text('move'),
-                                  onTap: () {
-                                    //qui devo far si che si possano spostare
+                                  onTap: () async {
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => CreateViewMoveFile(file: files[index-dirs.length], oldDirectory: directory, newDirectory: applicationDir),
+                                      ),
+                                    );
                                     updateFiles(directory);
                                     Navigator.of(context).pop();
                                   },
@@ -333,6 +339,7 @@ class _View extends State<CreateViewFiles>{
       }
     }
 
+    print(names);
     setState((){
       files = names;
       dirs = directories;
@@ -353,6 +360,7 @@ class _View extends State<CreateViewFiles>{
       Directory dir = await getApplicationDocumentsDirectory();
       setState(() {
         directory = dir;
+        applicationDir=dir;
       });
     }
     else{
