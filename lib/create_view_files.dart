@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:app_cronometro/create_view_move_file.dart';
 import 'package:app_cronometro/view_into_directory.dart';
-import 'package:app_cronometro/view_move_file.dart';
 import 'package:app_cronometro/view_of_create_new_directory.dart';
 import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +11,13 @@ import 'package:share_plus/share_plus.dart';
 import 'text_editor.dart';
 import 'display_text.dart';
 
-//import 'favourites.dart';
+///this class creates the view of the files and the directories
+///that are located into the directory where I am.
 
 
 class CreateViewFiles extends StatefulWidget {
 
-  final String path;
+  final String path; //path of the current directory, if it's empty it is the App directory
   CreateViewFiles({Key? key, required this.path})
       : super(key: key);
 
@@ -28,13 +28,13 @@ class CreateViewFiles extends StatefulWidget {
 
 class _View extends State<CreateViewFiles>{
 
-  late List<String> files;
-  late List<String> dirs;
+  late List<String> files; //list of the files in this directory
+  late List<String> dirs; //list of the directories in this directory
   late List <String> favouriteFiles; //this list contains the name of the user favourite files
-  late int _index;
-  late bool _picked;
-  late Directory directory;
-  late Directory applicationDir;
+  late int _index; //comodo variable to make things work
+  late bool _picked; //flag that tells me if I have tapped on a file
+  late Directory directory; //Directory in wich I am into
+  late Directory applicationDir; //application Directory
 
   @override
   void initState(){
@@ -205,7 +205,7 @@ class _View extends State<CreateViewFiles>{
         }
     ),
     ),
-          if(_picked)...[  //this displays the text
+          if(_picked)...[  //this displays the text in case I choose a file, it is a widget
             Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -314,7 +314,7 @@ class _View extends State<CreateViewFiles>{
   }
 
 
-  //this function scan the directory to make a list of the txt files
+  ///this function scan the directory to make a list of the txt files and other directories
   updateFiles(Directory dir) async {
     List<String> names = List.filled(0, "", growable: true);
     List<String> directories = List.filled(0, "", growable: true);
@@ -322,9 +322,8 @@ class _View extends State<CreateViewFiles>{
     list = dir.listSync();
 
     for(FileSystemEntity entity in list){
-      //FileStat f = file.path;
       if(entity is File){
-        if(entity.path.endsWith("txt")) {
+        if(entity.path.endsWith("txt")) {     //parsing routine
           String string = entity.path.split("/").last;
           int start = 0;
           int end = string.lastIndexOf(".");
@@ -334,7 +333,7 @@ class _View extends State<CreateViewFiles>{
       }
       if(entity is Directory){
         String string = entity.path.split("/").last;
-        if(string!="flutter_assets" && string != "res_timestamp-1-1669713873794")
+        if(string!="flutter_assets" && string != "res_timestamp-1-1669713873794") //I don't want these directories
           directories.add(string);
       }
     }
@@ -345,7 +344,7 @@ class _View extends State<CreateViewFiles>{
     });
   }
 
-  //this function gets the text from a file
+  ///this function gets the text from a file
   String getText(String name){
     String path = directory.path;
     File file = File("$path/$name.txt");
@@ -353,7 +352,7 @@ class _View extends State<CreateViewFiles>{
     return content;
   }
 
-  //this functions sets the initial directory
+  ///this functions sets the initial directory and the applicationDirectory
   checkDir() async {
     if(widget.path=="") {
       Directory dir = await getApplicationDocumentsDirectory();

@@ -8,7 +8,10 @@ import 'package:quill_format/quill_format.dart';
 import 'main.dart';
 import 'manage_files.dart';
 
-
+///this class is the text editor, uses the zefyrka editor to edit text.
+///when we open a file we are in the readOnly mode, if we press the
+///button we can quit that mode and modify the file. then we can save
+///it calling the view_of_savelocalfile widget.
 class TextEditor extends StatefulWidget{
   String doc;
   final Directory directory;
@@ -23,14 +26,12 @@ class _TextEditor extends State<TextEditor>{
 
   late ZefyrController _controller;
   late bool _readOnly;
-  bool _save = false;
 
   @override
   void initState(){
     super.initState();
     final document = loadDocument();
     _readOnly = true;
-    _save = false;
     _controller = ZefyrController(document);
   }
 
@@ -73,10 +74,6 @@ class _TextEditor extends State<TextEditor>{
           floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.archive_sharp),
               onPressed: () async {
-                /*await Navigator.of(context).push(
-                MaterialPageRoute(
-                builder: (context) => SaveFile(image: widget.image, text: _controller.document.toString())));
-                */
                 if(getFileName()!="") {
                   saveFile(getFileName(), _controller.document.toString());
                   setFileName("");
@@ -100,7 +97,7 @@ class _TextEditor extends State<TextEditor>{
     );
   }
 
-  //this function provide a document readable from the Zefyr library
+  ///this function provide a document readable from the Zefyr library
   NotusDocument loadDocument(){
     Delta delta = Delta()..insert(widget.doc);
     delta = delta.concat(Delta()..insert('\n'));  //it always has to end with a newline

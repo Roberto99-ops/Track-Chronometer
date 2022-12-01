@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:app_cronometro/manage_files.dart';
 
-import 'main.dart';
-
+///this class creates the view that allows us to
+///create a new directory. it is pretty much the same as the
+///one that allows us to save a file.
 class ViewCreateDir extends StatefulWidget{
-  final Directory directory;
+  final Directory directory; //where I want to create the new directory
   const ViewCreateDir({Key? key, required this.directory}) : super(key: key);
 
 
@@ -15,8 +16,9 @@ class ViewCreateDir extends StatefulWidget{
 }
 
 class _ViewCreateDir extends State<ViewCreateDir>{
-  bool isReadOnly = true;
-  bool wrongname = false;
+  bool isReadOnly = true; //this is set true and then false if I click on the
+  //input, so I haven't the keyboard istantly
+  bool wrongname = false; //flag that allows me to know if the directory already exists
   final titleController = TextEditingController();
 
   @override

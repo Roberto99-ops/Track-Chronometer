@@ -1,16 +1,14 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:app_cronometro/create_view_files.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'display_text.dart';
-import 'main.dart';
-import 'manage_files.dart';
-import 'view_of_savelocalfile.dart';
 
 
+///this class is used to return a materialapp that allows
+///me to see into a directory when I press it.
+///it calls CreateViewFiles as body to view all the files and
+///directory listed in this subDirectory.
 class ViewIntoDirectory extends StatefulWidget{
-  Directory directory;
+  Directory directory; //directory into wich I want to see
 
   ViewIntoDirectory({Key? key, required this.directory}) : super(key: key);
 
@@ -21,9 +19,9 @@ class ViewIntoDirectory extends StatefulWidget{
 
 class _View extends State<ViewIntoDirectory>{
 
-  late String dirName="";
+  late String dirName=""; //name of the chosen directory
   late int end;
-  late String newDirName;
+  late String newDirName; //name of the previous directory
   @override
   void initState(){
     super.initState();
@@ -48,7 +46,7 @@ class _View extends State<ViewIntoDirectory>{
                   children: [
                     IconButton(
                         onPressed: () async => {
-                          if(newDirName.split("/").last!="app_flutter")
+                          if(newDirName.split("/").last!="app_flutter") //else navigator.pop
                           await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>

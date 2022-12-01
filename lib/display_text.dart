@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:app_cronometro/text_editor.dart';
 import 'package:flutter/material.dart';
 
+///this class displays the text when create/modify a file,
+///it calls the text_editor widget.
 class DisplayText extends StatelessWidget {
 
-  final String extractText;
-  final Directory directory;
+  final String extractText; //text inside the file
+  final Directory directory; //directory where the file is
   const DisplayText({Key? key, required this.extractText, required this.directory})
       : super(key: key);
 

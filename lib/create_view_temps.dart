@@ -7,6 +7,12 @@ import 'main.dart';
 import 'manage_files.dart';
 import 'view_of_savelocalfile.dart';
 
+///this class creates the intial view where we can see the registered
+///time result and then save it.
+///this class is a big is-else, if I haven't started yet the time
+///measure I don't have to display the save button, in the
+///other case I have to do it; also if I start the measure I have to display
+///a STOP button...
 
 class CreateViewTemps extends StatefulWidget{
   CreateViewTemps({Key? key}) : super(key: key);
@@ -20,9 +26,8 @@ class _View extends State<CreateViewTemps>{
 
   late bool ready; //used to start/stop the measure
   late bool saveButton=false; //used to display the button to save the just taken measures
-  late bool _save = false;
-  late String doc = "ciaociao";
-  late Directory directory;
+  late String doc = "ciaociao"; //da cancellare
+  late Directory directory; //directory where I have to save the file (application directory)
 
   @override
   void initState(){
@@ -30,7 +35,6 @@ class _View extends State<CreateViewTemps>{
     super.initState();
     ready=true;
     saveButton=false;
-    _save=false;
   }
 
   @override
@@ -41,14 +45,14 @@ class _View extends State<CreateViewTemps>{
           body: Column(
             children: [
               Container(
-                //qui ci va uil tempo
+                //qui ci va un container col tempo che scorre
                 height: MediaQuery.of(context).size.height-250,
               ),
               if (ready==true)...[
                 if(saveButton==false)...[
                   ElevatedButton(
                     onPressed: () {
-                      //qui facciamo partire il tutto
+                      //qui facciamo partire il tutto bluetooth
                       setState(() { ready=false;});
                     },
                     style: const ButtonStyle(
@@ -75,7 +79,7 @@ class _View extends State<CreateViewTemps>{
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          //qui facciamo partire il tutto
+                          //qui facciamo partire il tutto bluetooth
                           setState(() { ready=false;});
                         },
                         style: const ButtonStyle(
@@ -120,7 +124,7 @@ class _View extends State<CreateViewTemps>{
               ]else...[
                 ElevatedButton(
                   onPressed: () {
-                    //qui facciamo partire il tutto
+                    //qui facciamo partire il tutto bluetooth
                     setState(() { ready=true; saveButton=true;});
                   },
                   style: const ButtonStyle(
@@ -147,6 +151,7 @@ class _View extends State<CreateViewTemps>{
     );
   }
 
+  ///this function initiate the directory
   initDir() async {
     Directory dir = await getApplicationDocumentsDirectory();
     setState(() {

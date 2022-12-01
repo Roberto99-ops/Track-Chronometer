@@ -4,26 +4,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'create_view_files.dart';
 
+///this class contains all the functions necessary to
+///create,delete and move files and directories.
 
+
+///this function save a File into the application directory,
+///given the name and the content of the file.
 Future<bool> saveFile(String fileName, String text) async {
-
   Directory directory;
   try {
     if (Platform.isAndroid) {
       if (await _requestPermission(Permission.storage)) {
         directory = await getApplicationDocumentsDirectory();
-        /*String newPath = "";
-          List<String> paths = directory.path.split("/");
-          for (int x = 1; x < paths.length; x++) {
-            String folder = paths[x];
-            if (folder != "Android") {
-              newPath += "/" + folder;
-            } else {
-              break;
-            }
-          }
-          newPath = newPath + "/TextFiles";
-          directory = Directory(newPath);*/
       } else {
         return false;
       }
@@ -65,6 +57,8 @@ Future<bool> saveFile(String fileName, String text) async {
   }
 }
 
+///this function is used to guarantee that we have all the permissions
+///from the user
 Future<bool> _requestPermission(Permission permission) async {
   if (await permission.isGranted) {
     return true;
@@ -77,12 +71,15 @@ Future<bool> _requestPermission(Permission permission) async {
   return false;
 }
 
-Future<void> deleteFile(String fileName) async {
+///this function deletes a file given his name
+Future<void> deleteFile(String fileName) async { //I have to modify it so I can delete files also in the directories
   Directory directory = await getApplicationDocumentsDirectory();
   File TxtFile = File("${directory.path}/$fileName.txt");
   TxtFile.deleteSync();
 }
 
+///this function checks if a file is already existent,
+///given the name of the file and the directory
 Future <bool> checkFiles(String fileName, Directory dir) async {
   List<String> names = List.filled(0, "", growable: true);
   List<FileSystemEntity> list;
@@ -102,6 +99,8 @@ Future <bool> checkFiles(String fileName, Directory dir) async {
   return true;
 }
 
+///this function allow us to move a file (ToMove)
+///from a directory (from) to another (to).
 Future<void> moveFile(String toMove, Directory from, Directory to) async {
       File file = File("${from.path}/$toMove.txt");
       String text = file.readAsStringSync();
@@ -111,6 +110,8 @@ Future<void> moveFile(String toMove, Directory from, Directory to) async {
       file.deleteSync();
 }
 
+///this function checks if a directory is already existent,
+///given his name and where it is located
 bool checkDirs(String name, Directory dir){
   List<String> names = List.filled(0, "", growable: true);
   List<FileSystemEntity> list;
@@ -127,6 +128,7 @@ bool checkDirs(String name, Directory dir){
   return true;
 }
 
+///this function allow us to create a directory
 Future<bool> createDir(String name, Directory dir) async {
   try {
     if(name==""){
@@ -144,15 +146,7 @@ Future<bool> createDir(String name, Directory dir) async {
   }
 }
 
-//this method deletes the chosen directory
-void deleteDirectory(Directory dir){
+///this method deletes the chosen directory
+void deleteDirectory(Directory dir){ //it doesn't work if i am not in the root directory
   dir.deleteSync();
 }
-/*
-Future <void> renameFile(String oldfileName, String newfileName) async{
-  Directory dir = await getApplicationDocumentsDirectory();
-  File file = File("${dir.path}/$oldfileName.txt");
-  String text = file.readAsStringSync();
-  deleteFile(oldfileName);
-  saveFile(newfileName, text);
-}*/

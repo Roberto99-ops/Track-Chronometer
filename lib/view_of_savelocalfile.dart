@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:app_cronometro/manage_files.dart';
 
-import 'main.dart';
-
+///this class creates the view that allow me to save a file.
 class ViewSaveFile extends StatefulWidget{
-  final String text;
-  final Directory directory;
+  final String text; //text to be saved
+  final Directory directory; //where to be saved
   const ViewSaveFile({Key? key, required this.text, required this.directory}) : super(key: key);
 
 
@@ -16,8 +15,9 @@ class ViewSaveFile extends StatefulWidget{
 }
 
 class _ViewSaveFile extends State<ViewSaveFile>{
-  bool isReadOnly = true;
-  bool wrongname = false;
+  bool isReadOnly = true; //this is set true and then false if I click on the
+  //input, so I haven't the keyboard istantly
+  bool wrongname = false; //flag that allows me to know if the directory already exists
   final titleController = TextEditingController();
 
   @override

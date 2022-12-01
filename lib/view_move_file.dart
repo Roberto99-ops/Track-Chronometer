@@ -1,23 +1,15 @@
 import 'dart:io';
 
-import 'package:app_cronometro/view_into_directory.dart';
 import 'package:app_cronometro/view_of_create_new_directory.dart';
-import 'package:app_cronometro/view_of_savelocalfile.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:app_cronometro/manage_files.dart';
-import 'package:share_plus/share_plus.dart';
 import 'create_view_move_file.dart';
-import 'text_editor.dart';
-import 'display_text.dart';
 
-//import 'favourites.dart';
-
-
+///this class generates the view seen when moving a file.
 class ViewMoveFile extends StatefulWidget {
 
-  final String file;
-  final String oldDirectory;
+  final String file; //file to be moved
+  final String oldDirectory; //directory from where I have to move the file
   final String newDirectory; //newDirectory is this directory
   ViewMoveFile({Key? key, required this.file, required this.oldDirectory, required this.newDirectory})
       : super(key: key);
@@ -29,7 +21,7 @@ class ViewMoveFile extends StatefulWidget {
 
 class _View extends State<ViewMoveFile>{
 
-  late List<String> dirs;
+  late List<String> dirs; //directory located in the current directory
 
   @override
   void initState(){
@@ -110,7 +102,7 @@ class _View extends State<ViewMoveFile>{
   }
 
 
-  //this function scan the directory to make a list of the txt files
+  ///this function scan the directory to make a list of the directories
   updateFiles(Directory dir) async {
     List<String> directories = List.filled(0, "", growable: true);
     List<FileSystemEntity> list;
@@ -126,13 +118,5 @@ class _View extends State<ViewMoveFile>{
     setState((){
       dirs = directories;
     });
-  }
-
-  //this function gets the text from a file
-  String getText(String name){
-    String path = widget.newDirectory;
-    File file = File("$path/$name.txt");
-    String content = file.readAsStringSync();
-    return content;
   }
 }
