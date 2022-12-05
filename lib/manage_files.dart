@@ -71,8 +71,8 @@ Future<bool> _requestPermission(Permission permission) async {
   return false;
 }
 
-///this function deletes a file given his name
-Future<void> deleteFile(String fileName, Directory directory) async { //I have to modify it so I can delete files also in the directories
+///this function deletes a file given its name and the directory it is into
+Future<void> deleteFile(String fileName, Directory directory) async {
   File TxtFile = File("${directory.path}/$fileName.txt");
   TxtFile.deleteSync();
 }

@@ -46,13 +46,15 @@ class _View extends State<ViewIntoDirectory>{
                   children: [
                     IconButton(
                         onPressed: () async => {
-                          if(newDirName.split("/").last!="app_flutter") //else navigator.pop
-                          await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewIntoDirectory(directory: Directory(newDirName)),
+                          if(newDirName.split("/").last!="app_flutter"){///else navigator.pop non va diocan
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewIntoDirectory(
+                                        directory: Directory(newDirName)),
+                              ),
                             ),
-                          ),
+                          }
                           },
                         icon: Icon(Icons.arrow_circle_left_outlined, color: Colors.blue)
                     ),

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:app_cronometro/manage_files.dart';
 
+import 'main.dart';
+
 ///this class creates the view that allow me to save a file.
 class ViewSaveFile extends StatefulWidget{
   final String text; //text to be saved
@@ -103,7 +105,11 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                           else {
                             setState(() {wrongname=false;});
                             saveFile(titleController.text, widget.text);
-                            Navigator.pop(context,false);
+                            await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
+                                )
+                            );
                           }
                       },
                       child: const Text("save"),
