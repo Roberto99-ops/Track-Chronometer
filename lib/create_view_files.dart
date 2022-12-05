@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_cronometro/manage_files.dart';
 import 'package:share_plus/share_plus.dart';
+import 'main.dart';
 import 'text_editor.dart';
 import 'display_text.dart';
 
@@ -156,7 +157,6 @@ class _View extends State<CreateViewFiles>{
                                       ),
                                     );
                                     updateFiles(directory);
-                                    Navigator.of(context).pop();
                                   },
                                 ),
                                 ListTile(

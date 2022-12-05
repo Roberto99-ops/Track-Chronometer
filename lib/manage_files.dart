@@ -101,6 +101,8 @@ Future <bool> checkFiles(String fileName, Directory dir) async {
 ///this function allow us to move a file (ToMove)
 ///from a directory (from) to another (to).
 Future<void> moveFile(String toMove, Directory from, Directory to) async {
+  if(from==to) return;
+
       File file = File("${from.path}/$toMove.txt");
       String text = file.readAsStringSync();
       File saveTxtFile = File("${to.path}/$toMove.txt");

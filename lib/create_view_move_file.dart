@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app_cronometro/view_move_file.dart';
 import 'package:flutter/material.dart';
+import 'main.dart';
 import 'manage_files.dart';
 
 ///this class creates the view (a material app) that will allow
@@ -69,9 +70,13 @@ class _View extends State<CreateViewMoveFile>{
                   SizedBox(
                     width: MediaQuery.of(context).size.width/10,
                     child: IconButton(
-                        onPressed: () => {
+                        onPressed: () async => {
                           moveFile(widget.file, widget.oldDirectory, widget.newDirectory),
-                          Navigator.popUntil(context, ModalRoute.withName("/_CreateViewFiles"))
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                            builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
+                          )
+                        ),
                         },
                         icon: Icon(Icons.save_alt, color: Colors.blue,)
                     )
