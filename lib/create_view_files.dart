@@ -169,7 +169,7 @@ class _View extends State<CreateViewFiles>{
                                       ),
                                     );
                                     if(result==true)
-                                      deleteFile(files[index-dirs.length]);
+                                      deleteFile(files[index-dirs.length], directory);
                                     updateFiles(directory);
                                     Navigator.of(context).pop();
                                   },
@@ -178,7 +178,7 @@ class _View extends State<CreateViewFiles>{
                                   leading: const Icon(Icons.delete, color: Colors.red),
                                   title: const Text('delete'),
                                   onTap: () {
-                                    deleteFile(files[index-dirs.length]);
+                                    deleteFile(files[index-dirs.length], directory);
                                     updateFiles(directory);
                                     Navigator.of(context).pop();
                                   },
