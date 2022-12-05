@@ -38,9 +38,6 @@ class _View extends State<CreateViewTemps>{
     ready=true;
     saveButton=false;
     getTime(timeWatch);
-    timer = Timer.periodic(Duration(milliseconds: 1), (timer) {  ///potrei metterci if(timeWatch.isrunning)...
-      getTime(timeWatch);
-    });
   }
 
   @override
@@ -91,6 +88,7 @@ class _View extends State<CreateViewTemps>{
                       //qui facciamo partire il tutto bluetooth
                       setState(() { ready=false;});
                       setState(() {timeWatch.start();});
+                      timer = Timer.periodic(Duration(milliseconds: 1), (timer) {getTime(timeWatch);}); //this is a timer that runs the time
                     },
                     style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.green),
@@ -121,6 +119,7 @@ class _View extends State<CreateViewTemps>{
                           //qui facciamo partire il tutto bluetooth
                           setState(() { ready=false;});
                           setState(() {timeWatch.start();});
+                          timer = Timer.periodic(Duration(milliseconds: 1), (timer) {getTime(timeWatch);}); //this is a timer that runs the time
                         },
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(Colors.green),
@@ -149,8 +148,10 @@ class _View extends State<CreateViewTemps>{
                               builder: (context) => DisplayText(extractText: doc, directory: directory,),
                             ),
                           );
-                          if(result==true)
-                            setState(() {saveButton=false;});
+                          if(result==true) {
+                            setState(() {saveButton = false;});
+                            setState(() {timeWatch.reset();});
+                          }
                         },
                         icon: const Icon(
                           Icons.archive_sharp,
@@ -173,6 +174,7 @@ class _View extends State<CreateViewTemps>{
                     //qui facciamo partire il tutto bluetooth
                     setState(() { ready=true; saveButton=true;});
                     setState(() {timeWatch.stop();});
+                    timer.cancel(); //this stops the timer
                   },
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.red),
@@ -214,7 +216,6 @@ class _View extends State<CreateViewTemps>{
     int end = 11;
     String cutTime = watch.elapsed.toString().substring(start,end);
     setState(() {totalTime=cutTime; firstPartial=cutTime; secondPartial=cutTime;});
-    print(totalTime);
   }
 
   ///this function composes the document that we want to save
