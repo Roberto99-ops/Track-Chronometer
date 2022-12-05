@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'display_text.dart';
-import 'main.dart';
-import 'manage_files.dart';
-import 'view_of_savelocalfile.dart';
 
 ///this class creates the intial view where we can see the registered
 ///time result and then save it.
@@ -28,6 +25,11 @@ class _View extends State<CreateViewTemps>{
   late bool saveButton=false; //used to display the button to save the just taken measures
   late String doc = "ciaociao"; //da cancellare
   late Directory directory; //directory where I have to save the file (application directory)
+  late Stopwatch timeWatch = Stopwatch();
+  late String totalTime;
+  late String firstPartial;
+  late String secondPartial;
+  late Timer timer;
 
   @override
   void initState(){
@@ -35,6 +37,10 @@ class _View extends State<CreateViewTemps>{
     super.initState();
     ready=true;
     saveButton=false;
+    getTime(timeWatch);
+    timer = Timer.periodic(Duration(milliseconds: 1), (timer) {
+      getTime(timeWatch);
+    });
   }
 
   @override
@@ -44,16 +50,47 @@ class _View extends State<CreateViewTemps>{
         Scaffold(
           body: Column(
             children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height-600,
+              ),
               Container(
-                //qui ci va un container col tempo che scorre
-                height: MediaQuery.of(context).size.height-250,
+                //qui ci va un container col tempo che scorre con bluetooth
+                height: MediaQuery.of(context).size.height-400,
+                width: MediaQuery.of(context).size.width-100,
+                child: Column(
+                  children: [
+                    Text(
+                      totalTime,
+                      textScaleFactor: 4,
+                      textAlign: TextAlign.left,
+                    ),
+                    SizedBox(height: 20,),
+                    Text(
+                      firstPartial,
+                      textScaleFactor: 3,
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      secondPartial,
+                      textScaleFactor: 3,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
               ),
               if (ready==true)...[
                 if(saveButton==false)...[
+                  Row(
+                    children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/3-40,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       //qui facciamo partire il tutto bluetooth
                       setState(() { ready=false;});
+                      setState(() {timeWatch.start();});
                     },
                     style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.green),
@@ -70,6 +107,8 @@ class _View extends State<CreateViewTemps>{
                           textScaleFactor: 2.5,)
                       ],
                     ),
+                  )
+                    ],
                   ),
                 ]else...[
                   Row(
@@ -81,6 +120,7 @@ class _View extends State<CreateViewTemps>{
                         onPressed: () {
                           //qui facciamo partire il tutto bluetooth
                           setState(() { ready=false;});
+                          setState(() {timeWatch.start();});
                         },
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(Colors.green),
@@ -122,10 +162,16 @@ class _View extends State<CreateViewTemps>{
                   ),
                 ]
               ]else...[
+                Row(
+                  children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/3-40,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     //qui facciamo partire il tutto bluetooth
                     setState(() { ready=true; saveButton=true;});
+                    setState(() {timeWatch.stop();});
                   },
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.red),
@@ -143,6 +189,8 @@ class _View extends State<CreateViewTemps>{
                     ],
                   ),
                 ),
+                  ],
+                ),
               ],
             ],
     ),
@@ -157,6 +205,15 @@ class _View extends State<CreateViewTemps>{
     setState(() {
       directory=dir;
     });
+  }
+
+  ///this function transforms a stopwatch var into min:sec.millisec
+  getTime(Stopwatch watch){
+    int start = 3;
+    int end = 11;
+    String cutTime = watch.elapsed.toString().substring(start,end);
+    setState(() {totalTime=cutTime; firstPartial=cutTime; secondPartial=cutTime;});
+    print(totalTime);
   }
 }
 
