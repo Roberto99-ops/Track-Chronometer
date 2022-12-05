@@ -220,7 +220,9 @@ class _View extends State<CreateViewTemps>{
 
   ///this function composes the document that we want to save
   composeDoc(){
-    doc = (totalTime + "\n" + firstPartial + "\n" + secondPartial + "\n");
+    setState(() {
+      doc = ("Tempo totale: " + totalTime + "\n\n" + "Primo parziale: " + firstPartial + "\n" + "Secondo parziale: " + secondPartial);
+    });
   }
 }
 

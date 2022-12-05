@@ -40,10 +40,13 @@ Future<bool> saveFile(String fileName, String text) async {
       List<String> strings = text.split('\n');
       for(int i=0; i<strings.length; i++) {
         String string = strings[i];
-        int start = 3;
-        int end = string.length - 3;
-        string = string.substring(start, end);
-        if(i!=strings.length-1) string = '$string\n';
+        if(string.length==4) string="\n";  //if the row is empty
+        else {
+          int start = 3;
+          int end = string.length - 3;
+          string = string.substring(start, end);
+          if (i != strings.length - 1) string = '$string\n';
+        }
         finalString = finalString + string;
       }
 
