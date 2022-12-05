@@ -23,13 +23,13 @@ class _View extends State<CreateViewTemps>{
 
   late bool ready; //used to start/stop the measure
   late bool saveButton=false; //used to display the button to save the just taken measures
-  late String doc = "ciaociao"; //da cancellare
   late Directory directory; //directory where I have to save the file (application directory)
   late Stopwatch timeWatch = Stopwatch();
   late String totalTime;
   late String firstPartial;
   late String secondPartial;
   late Timer timer;
+  late String doc;
 
   @override
   void initState(){
@@ -38,7 +38,7 @@ class _View extends State<CreateViewTemps>{
     ready=true;
     saveButton=false;
     getTime(timeWatch);
-    timer = Timer.periodic(Duration(milliseconds: 1), (timer) {
+    timer = Timer.periodic(Duration(milliseconds: 1), (timer) {  ///potrei metterci if(timeWatch.isrunning)...
       getTime(timeWatch);
     });
   }
@@ -143,6 +143,7 @@ class _View extends State<CreateViewTemps>{
                       ),
                       IconButton(
                         onPressed: () async {
+                          composeDoc();
                           var result = await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => DisplayText(extractText: doc, directory: directory,),
@@ -214,6 +215,11 @@ class _View extends State<CreateViewTemps>{
     String cutTime = watch.elapsed.toString().substring(start,end);
     setState(() {totalTime=cutTime; firstPartial=cutTime; secondPartial=cutTime;});
     print(totalTime);
+  }
+
+  ///this function composes the document that we want to save
+  composeDoc(){
+    doc = (totalTime + "\n" + firstPartial + "\n" + secondPartial + "\n");
   }
 }
 
