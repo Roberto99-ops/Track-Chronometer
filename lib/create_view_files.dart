@@ -165,7 +165,7 @@ class _View extends State<CreateViewFiles>{
                                   onTap: () async {
                                     var result = await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => ViewSaveFile(text: getText(files[index-dirs.length]), directory: directory,),
+                                        builder: (context) => ViewSaveFile(text: getText(files[index-dirs.length]), directory: directory, rename: true,),
                                       ),
                                     );
                                     if(result==true)

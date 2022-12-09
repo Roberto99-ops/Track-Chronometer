@@ -9,7 +9,8 @@ import 'main.dart';
 class ViewSaveFile extends StatefulWidget{
   final String text; //text to be saved
   final Directory directory; //where to be saved
-  const ViewSaveFile({Key? key, required this.text, required this.directory}) : super(key: key);
+  final bool rename;
+  const ViewSaveFile({Key? key, required this.text, required this.directory, required this.rename}) : super(key: key);
 
 
   @override
@@ -104,12 +105,14 @@ class _ViewSaveFile extends State<ViewSaveFile>{
                           }
                           else {
                             setState(() {wrongname=false;});
-                            saveFile(titleController.text, widget.text);
-                            await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
-                                )
-                            );
+                            saveFile(titleController.text, widget.text, widget.directory, widget.rename);
+                            if(!widget.rename) //if we are renaming a file we have to pop and do other stuffs
+                              await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => TabApp(), //qui mi sa che è sbagliato nel senso che penso di dover fare la "back"
+                                  )
+                              );
+                            Navigator.pop(context,true);
                           }
                       },
                       child: const Text("save"),

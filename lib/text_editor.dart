@@ -15,7 +15,8 @@ import 'manage_files.dart';
 class TextEditor extends StatefulWidget{
   String doc;
   final Directory directory;
-  TextEditor({Key? key, required this.doc, required this.directory}) : super(key: key);
+  final bool rename;
+  TextEditor({Key? key, required this.doc, required this.directory, required this.rename}) : super(key: key);
 
   @override
   _TextEditor createState() => _TextEditor();
@@ -75,7 +76,7 @@ class _TextEditor extends State<TextEditor>{
               child: const Icon(Icons.archive_sharp),
               onPressed: () async {
                 if(getFileName()!="") {
-                  saveFile(getFileName(), _controller.document.toString());
+                  saveFile(getFileName(), _controller.document.toString(), widget.directory, widget.rename);
                   setFileName("");
                   await Navigator.of(context).push(
                       MaterialPageRoute(
@@ -86,7 +87,7 @@ class _TextEditor extends State<TextEditor>{
                 else {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ViewSaveFile(text: _controller.document.toString(), directory: widget.directory,),
+                      builder: (context) => ViewSaveFile(text: _controller.document.toString(), directory: widget.directory, rename: false,),
                     ),
                   );
                 }

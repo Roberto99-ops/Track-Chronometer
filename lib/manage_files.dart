@@ -8,18 +8,17 @@ import 'package:permission_handler/permission_handler.dart';
 
 ///this function save a File into the application directory,
 ///given the name and the content of the file.
-Future<bool> saveFile(String fileName, String text) async {
-  Directory directory;
+///rename boolean is needed becausue if this method is called by the
+///rename function, I don't have to do the parsing.
+Future<bool> saveFile(String fileName, String text, Directory directory, bool _rename) async {
   try {
     if (Platform.isAndroid) {
       if (await _requestPermission(Permission.storage)) {
-        directory = await getApplicationDocumentsDirectory();
       } else {
         return false;
       }
     } else {
       if (await _requestPermission(Permission.storage)) {
-        directory = await getTemporaryDirectory();
       } else {
         return false;
       }
@@ -38,10 +37,14 @@ Future<bool> saveFile(String fileName, String text) async {
       List<String> strings = text.split('\n');
       for(int i=0; i<strings.length; i++) {
         String string = strings[i];
-        if(string.length==4) string="\n";  //if the row is empty
+        if(!_rename && string.length==4) string="\n";  //if the row is empty
         else {
-          int start = 3;
-          int end = string.length - 3;
+          int start=0;
+          int end=string.length;
+          if(!_rename) {
+            start = 3;
+            end = string.length - 3;
+          }
           string = string.substring(start, end);
           if (i != strings.length - 1) string = '$string\n';
         }

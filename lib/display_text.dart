@@ -28,7 +28,7 @@ class DisplayText extends StatelessWidget {
             ],),
           ),
           body: TabBarView(children: [
-            TextEditor(doc: extractText, directory: directory,),
+            TextEditor(doc: extractText, directory: directory, rename: false,),
           ],),
         ),
       ),
