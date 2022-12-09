@@ -93,6 +93,11 @@ class _View extends State<CreateViewFiles>{
                                           );
                                           updateFiles(directory);
                                           Navigator.of(context).pop();
+                                          await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => TabApp(),
+                                            ),
+                                          );
                                         }
                                       ),
                                       ListTile(
@@ -145,6 +150,11 @@ class _View extends State<CreateViewFiles>{
                                     );
                                     updateFiles(directory);
                                     Navigator.of(context).pop();
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => TabApp(),
+                                      ),
+                                    );
                                   },
                                 ),
                                 ListTile(
@@ -156,6 +166,7 @@ class _View extends State<CreateViewFiles>{
                                         builder: (context) => CreateViewMoveFile(file: files[index-dirs.length], oldDirectory: directory, newDirectory: applicationDir),
                                       ),
                                     );
+                                    Navigator.of(context).pop();
                                     updateFiles(directory);
                                   },
                                 ),
@@ -172,6 +183,11 @@ class _View extends State<CreateViewFiles>{
                                       deleteFile(files[index-dirs.length], directory);
                                     updateFiles(directory);
                                     Navigator.of(context).pop();
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => TabApp(),
+                                      ),
+                                    );
                                   },
                                 ),
                                 ListTile(

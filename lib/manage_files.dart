@@ -51,7 +51,7 @@ Future<bool> saveFile(String fileName, String text, Directory directory, bool _r
         finalString = finalString + string;
       }
 
-      saveTxtFile.writeAsString(finalString);
+      saveTxtFile.writeAsStringSync(finalString);
       return true;
     }
     return false;
@@ -111,7 +111,7 @@ Future<void> moveFile(String toMove, Directory from, Directory to) async {
       String text = file.readAsStringSync();
       File saveTxtFile = File("${to.path}/$toMove.txt");
 
-      saveTxtFile.writeAsString(text);
+      saveTxtFile.writeAsStringSync(text);
       file.deleteSync();
 }
 
@@ -141,7 +141,7 @@ Future<bool> createDir(String name, Directory dir) async {
     }
     if (await dir.exists()){
       Directory newDir = Directory("${dir.path}/$name");
-      newDir.create(recursive: true);
+      newDir.createSync();
       return true;
     }
     return false;
