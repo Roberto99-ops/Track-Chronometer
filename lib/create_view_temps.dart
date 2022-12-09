@@ -10,6 +10,7 @@ import 'display_text.dart';
 ///measure I don't have to display the save button, in the
 ///other case I have to do it; also if I start the measure I have to display
 ///a STOP button...
+///spacers e flexibles heavily used to adapt the layout to the screen size
 
 class CreateViewTemps extends StatefulWidget{
   CreateViewTemps({Key? key}) : super(key: key);
@@ -45,16 +46,15 @@ class _View extends State<CreateViewTemps>{
     return Stack(
       children: [
         Scaffold(
-          body: Column(
+          body:Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height-600,
+              Spacer(
+                flex: 3,
               ),
-              Container(
-                //qui ci va un container col tempo che scorre con bluetooth
-                height: MediaQuery.of(context).size.height-400,
-                width: MediaQuery.of(context).size.width-100,
-                child: Column(
+              Flexible(
+                  child: Column(
                   children: [
                     Text(
                       totalTime,
@@ -75,15 +75,17 @@ class _View extends State<CreateViewTemps>{
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
+                flex: 6
               ),
               if (ready==true)...[//I got the start button
                 if(saveButton==false)...[//I haven't the save button
-                  Row(
+                  Flexible(child: Row(
                     children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width/3-40,
+                  Spacer(
+                    flex: 1,
                   ),
-                  ElevatedButton(
+                  Flexible(
+                    child: ElevatedButton(
                     onPressed: () {
                       //qui facciamo partire il tutto bluetooth
                       setState(() { ready=false;});
@@ -105,16 +107,20 @@ class _View extends State<CreateViewTemps>{
                           textScaleFactor: 2.5,)
                       ],
                     ),
-                  )
+                  ),
+                    flex: 3,
+                  ),
+                      Spacer(flex: 1,)
                     ],
                   ),
+                    flex: 2,
+                  ),
                 ]else...[//I have the save button
-                  Row(
+                  Flexible(
+                    child: Row(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width/3-40,
-                      ),
-                      ElevatedButton(
+                      Spacer(flex: 1,),
+                      Flexible(child: ElevatedButton(
                         onPressed: () {
                           //qui facciamo partire il tutto bluetooth
                           setState(() { ready=false;});
@@ -137,10 +143,11 @@ class _View extends State<CreateViewTemps>{
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 14,
+                        flex: 3,
                       ),
-                      IconButton(
+                      Flexible(child: Row(children:[
+                      Spacer(flex: 2,),
+                      Flexible(child: IconButton(
                         onPressed: () async {
                           composeDoc();
                           var result = await Navigator.of(context).push(
@@ -160,16 +167,22 @@ class _View extends State<CreateViewTemps>{
                         iconSize: 50,
                         //alignment: Alignment.bottomRight,
                       ),
+                        flex: 5,
+                      ),
+                        Spacer(flex: 2),
+                      ],
+                      ),
+                      ),
                     ],
+                  ),
+                    flex: 2,
                   ),
                 ]
               ]else...[//I got the Stop button
-                Row(
+                Flexible(child: Row(
                   children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width/3-40,
-                ),
-                ElevatedButton(
+                Spacer(flex: 1,),
+                Flexible(child: ElevatedButton(
                   onPressed: () {
                     //qui facciamo partire il tutto bluetooth
                     setState(() { ready=true; saveButton=true;});
@@ -192,12 +205,17 @@ class _View extends State<CreateViewTemps>{
                     ],
                   ),
                 ),
+                  flex: 3,
+                ),
+                    Spacer(flex: 1,)
                   ],
+                ),
+                  flex: 2,
                 ),
               ],
             ],
     ),
-    ),
+          ),
       ],
     );
   }
