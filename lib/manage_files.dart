@@ -1,8 +1,6 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'create_view_files.dart';
 
 ///this class contains all the functions necessary to
 ///create,delete and move files and directories.

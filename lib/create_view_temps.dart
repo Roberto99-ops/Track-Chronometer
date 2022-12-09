@@ -76,8 +76,8 @@ class _View extends State<CreateViewTemps>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
               ),
-              if (ready==true)...[
-                if(saveButton==false)...[
+              if (ready==true)...[//I got the start button
+                if(saveButton==false)...[//I haven't the save button
                   Row(
                     children: [
                   SizedBox(
@@ -108,7 +108,7 @@ class _View extends State<CreateViewTemps>{
                   )
                     ],
                   ),
-                ]else...[
+                ]else...[//I have the save button
                   Row(
                     children: [
                       SizedBox(
@@ -163,7 +163,7 @@ class _View extends State<CreateViewTemps>{
                     ],
                   ),
                 ]
-              ]else...[
+              ]else...[//I got the Stop button
                 Row(
                   children: [
                 SizedBox(

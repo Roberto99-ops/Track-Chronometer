@@ -20,7 +20,7 @@ class DisplayText extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       home: DefaultTabController(
-        length: 3,
+        length: 1,
         child: Scaffold(
           appBar: AppBar(
             bottom: const TabBar(tabs: [
