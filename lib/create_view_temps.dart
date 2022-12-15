@@ -169,11 +169,11 @@ class _View extends State<CreateViewTemps>{
                     try {
                       connection = await BluetoothConnection.toAddress(address);
                     }catch(e){}
-                    _sendData(connection, "B"); //sends A via BT, stands for "start"
+                    _sendData(connection, "B"); //sends B via BT, stands for "start"
                     setState(() {ready=true; saveButton=true;});
                     timeWatch.stop();
                     timer.cancel(); //this stops the timer
-                    _manageBT("C\n");
+                    _manageBT("C");
                   },
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.red),
@@ -242,11 +242,11 @@ class _View extends State<CreateViewTemps>{
   }
 
   ///this function manages bluetooth inputs
-  _manageBT(String received){
+  _manageBT(String received) async {
     print(received);
     switch(received){
 
-      case 'A\n': //in case it receives A it starts counting
+      case 'A': //in case it receives A it starts counting
         timeWatch.start(); //starts e reset the time
         timer =
             Timer.periodic(Duration(milliseconds: 1), (timer) {
@@ -254,17 +254,17 @@ class _View extends State<CreateViewTemps>{
             }); //this is a timer that runs the time
         break;
 
-      case 'B\n'://in case it receives B it starts counting the second partial time
+      case 'B'://in case it receives B it starts counting the second partial time
         setState(() {
           firstCheck = true;
           firstCheckTime=timeWatch.elapsed;
         });
         break;
 
-      case 'C\n': //In case it receives C it closes the connection and resets everything
-        connection.finish(); // Closing connection
+      case 'C': //In case it receives C it closes the connection and resets everything
         timeWatch.stop();
         setState(() {ready=true; saveButton=true;});
+        connection.finish(); // Closing connection
         break;
     }
   }
