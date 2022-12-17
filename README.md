@@ -38,6 +38,8 @@ This application could work also with more stations, in order to have more parti
 Slaves modules are interchangeable one with the other.
 
 in Master_Schematic, A6 switch is designed in that way for convenience; obviously, while attching the switch to his pins, we have to take the necessary precautions.
+
+in all the Schematics, the distance between arduino pins is 5, and not 6.
 _______________________
 ### 5. Credits
 This project idea is taken from an existing project (mainly the arduino part), take a look if you're interested in:
