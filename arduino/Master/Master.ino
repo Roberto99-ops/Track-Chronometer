@@ -28,12 +28,11 @@
    pinMode(IReceiver, INPUT);
    pinMode(start, INPUT);
    analogWrite(buzzer, 0);
-   Serial.println("Master");
  }
 
 void loop() {
   if(start == true) {
-    if(digitalRead(sw) == LOW){        //in case I want to start the chronometer using a "START" sound
+    if(analogRead(sw) == LOW){        //in case I want to start the chronometer using a "START" sound
       int temp = random(1000,5000);
       delay(temp);
       analogWrite(buzzer, 255);    
