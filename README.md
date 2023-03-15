@@ -30,7 +30,7 @@ For this project I used:
                         - 1 piezoelectric buzzer
                         - 3 leds
                         - 3 battery banks
-                        - 4 switches
+                        - 1 switch
 _________________________
 ### 3. The app
 The application has been created using Flutter.
@@ -49,13 +49,9 @@ This application could work also with more stations, in order to have more parti
 
 Slaves modules are interchangeable one with each other.
 
-in Master_Schematic, A6 switch is designed in that way for convenience; obviously, while attaching the switch to his pins, we have to take the necessary precautions.
-
-in all the Schematics, the distance between arduino pins is 5, and not 6.
-
 it's a good idea to set arduino modules in long range mode; here a guide on how to do it: https://howtomechatronics.com/tutorials/arduino/arduino-and-hc-12-long-range-wireless-communication-module/
 
-the first try on this project was made using a photocell E18-D80NK, wich I found that not working at all in my case. Anyway ultrasound sensors don't suffers from any type of light disturb, so should be even better.
+the first try on this project was made using a photocell E18-D80NK, which I found that not working at all in my case. Anyway ultrasound sensors don't suffers from any type of light disturb, so should be even better.
 _______________________
 ### 6. Credits
 This project idea is taken from an existing project (mainly the arduino part), take a look if you're interested in:
