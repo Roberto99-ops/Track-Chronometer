@@ -1,13 +1,15 @@
  #include <SoftwareSerial.h>
- //this library is because we can't use two serials at the same time
+ //this library is here because we can't use two serials at the same time
  //I can't even use pin 10 because of this library
  #include <AltSoftSerial.h>
- 
+ #include <NewPing.h> //ultrasound library
  SoftwareSerial HC12(A2,A3); // HC-12(radio) TX Pin, RX Pin -> PWM
  #define sw  A6               // Switch pin
- #define buzzer  6           // buzzer to arduino pin 6 -> PWM
+ #define buzzer  6            // buzzer to arduino pin 6 -> PWM
+ #define TRIG 3               // ultrasound TRIG pin
+ #define ECO 2                // ultrasound ECO pin
  AltSoftSerial bluetooth;    // Bluet TX = 8, RX=9, because of the library
- #define IReceiver 3
+ NewPing sonar(TRIG, ECO, 500); //500 is the max distance in cm
  bool start = false;         //start variable
  int nOfStages = 2;          // this is used to know how many photocells stages we have
  int counter = 0;            //to know how many results we have received yet 
@@ -20,20 +22,23 @@
 
  
  void setup() {
-   Serial.begin(9600);             // Serial port to computer
-   HC12.begin(9600);               // Serial port to HC12
+   Serial.begin(1200);             // Serial port to computer
+   HC12.begin(1200);               // Serial port to HC12
    bluetooth.begin(9600);          // Serial port to bluetooth
    pinMode(sw, INPUT);
    pinMode(buzzer, OUTPUT);
-   pinMode(IReceiver, INPUT);
-   pinMode(start, INPUT);
    analogWrite(buzzer, 0);
  }
 
 void loop() {
   if(start == true) {
     if(analogRead(sw) == LOW){        //in case I want to start the chronometer using a "START" sound
-      int temp = random(1000,5000);
+      Serial.println("low");
+      int temp = random(2000,3000);
+      delay(1000);
+      analogWrite(buzzer,255);
+      delay(1000);
+      analogWrite(buzzer,0);
       delay(temp);
       analogWrite(buzzer, 255);    
       HC12.print("A");                 // it stands for "start"
@@ -43,15 +48,18 @@ void loop() {
       start=false;
     }
     else{   //in case I want to start the chronometer when the athlet passes by the first station
-      int photoCell = digitalRead(IReceiver);
-      if (photoCell == HIGH)
+      Serial.println("high");
+      delay(50); //necessary for the ultrasound
+      int ultrasound = sonar.ping_cm();
+      Serial.println(ultrasound);
+      if (ultrasound > 10 && ultrasound < 100) //to avoid errors
       {
         HC12.print("A");               // it stands fot "start"
         bluetooth.write("A"); 
         start=false;
       }
     }
-    int returned = 0;
+    //int returned = 0;
   }
 
   //it listens on the BT port for incoming messages
