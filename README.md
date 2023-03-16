@@ -22,15 +22,15 @@ The classical control flow is: 1. The app connects to arduino
                                7. The first arduino inform the app that the athlete is passed by the third station                                                   
 _________________________
 ### 2. Hardware
-For this project I used: 
-                        - 3 arduino nanos
-                        - 1 bluetooth module (HC-05)
-                        - 3 radio modules (HC-12)
-                        - 3 ultrasound sensors (HC SR-04)
-                        - 1 piezoelectric buzzer
-                        - 3 leds
-                        - 3 battery banks
-                        - 1 switch
+For this project I used:
+- 3 arduino nanos
+- 1 bluetooth module (HC-05)
+- 3 radio modules (HC-12)
+- 3 ultrasound sensors (HC SR-04)
+- 1 buzzer
+- 3 leds
+- 3 battery banks
+- 1 switch
 _________________________
 ### 3. The app
 The application has been created using Flutter.
