@@ -1,13 +1,13 @@
 # Track Chronometer
 The goal of this project is to create a track chronometer using a flutter application that interfaces with an arduino infrastructure.
 
-Chapters:                                                                                                                                                           
-          1. Brief description
-          2. Hardware
-          3. The app                                                                                                                                                 
-          4. Arduino code                                                                                                                                           
-          5. Observations                                                                                                                                           
-          6. Credits
+Chapters:
+1. Brief description
+2. Hardware
+3. The app
+4. Arduino code
+5. Observations
+6. Credits
  
 _________________________
 ### 1. Brief description
