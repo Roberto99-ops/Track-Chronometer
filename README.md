@@ -14,12 +14,14 @@ _________________________
 The idea is that we want to measure the time that an athlete takes to conclude a lap (or a fraction) of an athletics track. We want to use 3 checkpoint stations, so finally we want to have the total time, and 2 partial time (between 1 & 2 and between 2 & 3).                                                                       
 So we will have, an application that will interfaces with the arduino stations, and 3 stations made with arduino.                                                   
 We also want to be able to choose between two types of time starts; one type starts the time after a buzzer sound, and the other type starts the time after the athlete passes by the first station.                                                                                                                                 
-The classical control flow is: 1. The app connects to arduino                                                                                                       
-                               2. The app tells arduino to start (make buzzer sound or be ready for the athlete to pass)                                             
-                               3. When the buzzer sounds or the athlete passes by the first station, arduino tells the app to start the time and tells other arduinos to be ready                                4. When the atlhete passes by the second station, the second arduino informs the first one                                           
-                               5. The first arduino inform the app that the athlete is passed by the second station                                                 
-                               6. When the atlhete passes by the third station, the third arduino informs the first one                                             
-                               7. The first arduino inform the app that the athlete is passed by the third station                                                   
+The classical control flow is: 
+1. The app connects to arduino 
+2. The app tells arduino to start (make buzzer sound or be ready for the athlete to pass)
+3.  When the buzzer sounds or the athlete passes by the first station, arduino tells the app to start the time and tells other arduinos to be ready
+4.  When the atlhete passes by the second station, the second arduino informs the first one
+5.  The first arduino inform the app that the athlete is passed by the second station
+6.  When the atlhete passes by the third station, the third arduino informs the first one
+7.  The first arduino inform the app that the athlete is passed by the third station                                                   
 _________________________
 ### 2. Hardware
 For this project I used:
