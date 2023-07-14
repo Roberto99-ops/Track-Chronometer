@@ -53,7 +53,7 @@ Slaves modules are interchangeable one with each other.
 
 it's a good idea to set arduino modules in long range mode; here a guide on how to do it: https://howtomechatronics.com/tutorials/arduino/arduino-and-hc-12-long-range-wireless-communication-module/
 
-the first try on this project was made using a photocell E18-D80NK, which I found that not working at all in my case. Anyway ultrasound sensors don't suffers from any type of light disturb, so should be even better.
+the first try on this project was made using a photocell E18-D80NK, which I found out not working at all in my case. Anyway ultrasound sensors don't suffer from any type of light disturb, so they should be even better.
 _______________________
 ### 6. Credits
 This project idea is taken from an existing project (mainly the arduino part), take a look if you're interested in:
